@@ -3,7 +3,6 @@ from App.database import db
 class Internship(db.Model):
     __tablename__ = 'internship'
     id = db.Column(db.Integer, primary_key=True)
-    staff_id = db.Column(db.Integer, db.ForeignKey('staff.id'), nullable=False)
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable=False)
     job_id = db.Column(db.Integer, db.ForeignKey('job.id'), nullable=False)
     start_date = db.Column(db.Date, nullable=False)

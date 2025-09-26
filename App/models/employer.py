@@ -1,31 +1,28 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 from App.database import db
+from App.models import User
 
-class Employer(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username =  db.Column(db.String(20), nullable=False, unique=True)
-    password = db.Column(db.String(256), nullable=False)
-    name = db.Column(db.String(50), nullable=False)
+class Employer(User):
+    __tablename__ = 'employer'
+    employer_id = db.Column(db.Integer, unique=True)
     company = db.Column(db.String(100), nullable=False)
-    jobs = db.relationship('Job', backref='employer', lazy=True)
+    jobs = db.relationship('Job', backref='employer', lazy=True)    
 
-    def __init__(self, username, password, company):
-        self.username = username
+    __mapper_args__ = {
+        'polymorphic_identity': 'employer',
+    }
+
+    def __init__(self, username, password, employer_id, company):
+        super().__init__(username, password)
+        self.employer_id = employer_id
         self.company = company
-        self.set_password(password)
 
     def get_json(self):
         return{
             'id': self.id,
             'username': self.username,
-            'name': self.name,
-            'company': self.company
+            'employer_id': self.employer_id,
+            'type': self.type,
+            'jobs': [job.get_json() for job in self.jobs]
         }
 
-    def set_password(self, password):
-        """Create hashed password."""
-        self.password = generate_password_hash(password)
-    
-    def check_password(self, password):
-        """Check hashed password."""
-        return check_password_hash(self.password, password)

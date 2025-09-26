@@ -7,7 +7,7 @@ class Job(db.Model):
     description = db.Column(db.Text, nullable=False)
     location = db.Column(db.String(100), nullable=False)
     salary = db.Column(db.Float, nullable=True)
-    shortlist = db.relationship('Staff', secondary='internship', backref=db.backref('jobs', lazy=True))
+    shortlist = db.relationship('Student', secondary='internship', backref=db.backref('jobs', lazy=True))
 
     def __init__(self, title, description, location, salary=None):
         self.title = title
