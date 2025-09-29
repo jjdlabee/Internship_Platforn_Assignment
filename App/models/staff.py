@@ -3,22 +3,20 @@ from App.models import User
 
 class Staff(User):
     __tablename__ = 'staff'
-    staff_id = db.Column(db.Integer, unique=True)
-    students = db.relationship('Student', backref='staff', lazy=True)
+    id = db.Column(db.Integer,  db.ForeignKey('user.id'), primary_key=True)
+    students = db.relationship('Student', backref='staff',  lazy=True, foreign_keys='Student.staff_id')
     
     __mapper_args__ = {
-        'polymorphic_identity': 'staff',
+        'polymorphic_identity': 'staff'
     }
     
-    def __init__(self, username, password, staff_id):
-        super().__init__(username, password)
-        self.staff_id = staff_id
-
+    def __init__(self, username, password):
+        super().__init__(username, password, 'staff')
+        
     def get_json(self):
-        return{
+        return {
             'id': self.id,
             'username': self.username,
-            'staff_id': self.staff_id,
             'type': self.type,
             'students': [student.get_json() for student in self.students]
         }

@@ -1,8 +1,15 @@
-from App.models import User
+from App.models import User, Student, Employer, Staff
 from App.database import db
 
-def create_user(username, password):
-    newuser = User(username=username, password=password)
+def create_user(username, password, type, company_name=None):
+    if (type not in ['student', 'employer', 'staff']):
+        raise ValueError("Invalid user type. Must be 'student', 'employer', or 'staff'.")
+    elif (type == 'student'):
+        newuser = Student(username=username, password=password)
+    elif (type == 'employer'):
+        newuser = Employer(username=username, password=password, company=company_name)
+    elif (type == 'staff'):
+        newuser = Staff(username=username, password=password)
     db.session.add(newuser)
     db.session.commit()
     return newuser
@@ -32,3 +39,4 @@ def update_user(id, username):
         db.session.commit()
         return True
     return None
+

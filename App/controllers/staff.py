@@ -1,12 +1,6 @@
 from App.models import Staff
 from App.database import db
 
-def create_staff(username, password):
-    newstaff = Staff(username=username, password=password)
-    db.session.add(newstaff)
-    db.session.commit()
-    return newstaff
-
 def get_staff_by_username(username):
     result = db.session.execute(db.select(Staff).filter_by(username=username))
     return result.scalar_one_or_none()
@@ -49,7 +43,7 @@ def add_student_to_staff(staff_id, student):
         return True
     return None
 
-def get_students_for_staff(id):
+def get_students_by_staff_id(id):
     staff = get_staff(id)
     if staff:
         return [student.get_json() for student in staff.students]

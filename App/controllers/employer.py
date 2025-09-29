@@ -1,11 +1,5 @@
-from App.models import Employer, Job
+from App.models import Employer, Job, Internship
 from App.database import db
-
-def create_employer(username, password, company):
-    newemployer = Employer(username=username, password=password, company=company)
-    db.session.add(newemployer)
-    db.session.commit()
-    return newemployer
 
 def get_employer_by_username(username):
     result = db.session.execute(db.select(Employer).filter_by(username=username))
@@ -58,15 +52,25 @@ def get_jobs_for_employer(id):
         return [job.get_json() for job in employer.jobs]
     return None
 
-def reply_applicant(employer_id, job, student, accept=True):
+def get_employer_job_by_id(employer_id, job_id):
+    employer = get_employer(employer_id)
+    if employer:
+        for job in employer.jobs:
+            if job.id == job_id:
+                return job
+    return None
+
+def reply_applicant(employer_id, job, student, accept):
     employer = get_employer(employer_id)
     if employer and job in employer.jobs and student in job.shortlist:
+        internship = Internship.query.filter_by(student_id=student.id, job_id=job.id).first()
         if accept:
-            job.shortlist.intership.decision = 'accepted'
+            internship.status = 'accepted'
+            db.session.commit()
             pass
         else:
-            
-            job.shortlist.intership.decision = 'rejected'
+
+            internship.status = 'rejected'
             job.shortlist.remove(student)
         db.session.commit()
         return True
@@ -86,3 +90,10 @@ def get_shortlisted_applicants(employer_id, job):
         return [student.get_json() for student in job.shortlist]
     return None
 
+
+def get_job_by_title(title):
+    result = db.session.execute(db.select(Job).filter_by(title=title))
+    return result.scalar_one_or_none()
+
+def get_job(id):
+    return db.session.get(Job, id)
