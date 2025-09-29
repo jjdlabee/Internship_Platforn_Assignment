@@ -125,7 +125,7 @@ $ flask student list <format>
 Lists all students in the database. The format can be either string or json.
 
 ```bash
-$ sflask student toggle_availability <student_id>
+$ flask student toggle_availability <student_id>
 ```
 
 Toggles the availability status of a student.
