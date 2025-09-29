@@ -77,10 +77,104 @@ app.cli.add_command(user_cli) # add the group to the cli
 
 Then execute the command invoking with flask cli with command name and the relevant parameters
 
+
+
+## User Commands
+
 ```bash
 $ flask user create bob bobpass
 ```
+Creates a new user with the specified username, password, and type.
 
+```bash
+$ flask user list <format>
+```
+Lists all users in the database. The format can be either string or json.
+
+## Employer Commands
+
+```bash
+$ flask employer create_job <employer_id> <title> <description> <location> <salary>
+```
+Creates a job for the specified employer.
+
+```bash
+$ flask employer list_jobs <employer_id>
+```
+
+Lists all jobs for the specified employer.
+
+```bash
+$ flask employer get_shortlist <employer_id> <job_id>
+```
+
+Retrieves the shortlist of applicants for a specific job.
+
+```bash
+$ flask employer reply_applicant <employer_id> <job_id> <student_id> <accept>
+```
+
+Replies to an applicant for a job, either accepting or rejecting them.
+
+## Student Commands
+
+```bash
+$ flask student list <format>
+```
+
+Lists all students in the database. The format can be either string or json.
+
+```bash
+$ fflask student toggle_availability <student_id>
+```
+
+Toggles the availability status of a student.
+
+```bash
+$ flask student view_shortlist <student_id>
+```
+
+Views the shortlisted internships for a specific student.
+
+```bash
+$ flask student view_internship_status <student_id> <job_id>
+```
+
+Views the internship status for a specific student and job.
+
+## Staff Commands
+
+```bash
+$ flask staff list <format>
+```
+
+Lists all staff members in the database. The format can be either string or json.
+
+```bash
+$ flask staff list_students <staff_id>
+```
+
+Lists all students assigned to a specific staff member.
+
+```bash
+$ fflask staff add_student <staff_id> <student_id>
+```
+
+Assigns a student to a specific staff member.
+
+```bash
+$ flask staff add_shortlist <staff_id> <student_id> <job_id>
+```
+
+Adds a student to the shortlist for a specific job.
+
+## Test Commands
+
+```bash
+$ flask user list <format>
+```
+
+Runs tests for the User model. The type can be unit, int (integration), or all.
 
 # Running the Project
 
