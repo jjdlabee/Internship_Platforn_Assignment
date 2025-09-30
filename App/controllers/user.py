@@ -35,7 +35,7 @@ def update_user(id, username):
     user = get_user(id)
     if user:
         user.username = username
-        # user is already in the session; no need to re-add
+        
         db.session.commit()
         return True
     return None

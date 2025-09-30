@@ -157,10 +157,16 @@ $ flask staff list_students <staff_id>
 Lists all students assigned to a specific staff member.
 
 ```bash
-$ fflask staff add_student <staff_id> <student_id>
+$ flask staff add_student <staff_id> <student_id>
 ```
 
 Assigns a student to a specific staff member.
+
+```bash
+$ flask staff search_job <title>
+```
+
+Searches for a job by its title.
 
 ```bash
 $ flask staff add_shortlist <staff_id> <student_id> <job_id>

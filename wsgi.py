@@ -177,7 +177,16 @@ def add_student_command(staff_id, student_id):
         print(f'Student {student_id} added to staff member {staff_id}.')
     else:
         print(f'Failed to add student {student_id} to staff member {staff_id}.')
-        
+
+@staff_cli.command("search_job", help="Search for a job by title")
+@click.argument("title", default="Software Engineer")
+def search_job_command(title):
+    job = get_job_by_title(title)
+    if job is not None:
+        print(job)
+    else:
+        print(f'No job found with title {title}.')
+
 @staff_cli.command("add_shortlist", help="Add a student to a job shortlist")
 @click.argument("staff_id", default=1)
 @click.argument("student_id", default=2)
